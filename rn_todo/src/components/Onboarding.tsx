@@ -1,15 +1,24 @@
 import React from 'react';
-import {Text, View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import SvgComponent from './../assests/svg/OnboardingIcon';
 
 const {width} = Dimensions.get('screen');
 
-function Onboarding() {
+function Onboarding({navigation}) {
   const textArr = [
     'Very simple Things To-Do List. Helps you to manage yourdaily life,without any hassle!',
-    'Hard work always pays apple.',
+    'Hard work always pays.',
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   ];
+
+  const handleScroll = () => {};
 
   return (
     <>
@@ -17,36 +26,34 @@ function Onboarding() {
         <Text style={styles.welcome}>Hi there! Welcome to</Text>
         <Text style={styles.text}>TTD</Text>
       </View>
-
-      <View style={{height: 80, backgroundColor: '#140A26'}}>
+      <View style={styles.motive}>
         <ScrollView
           horizontal
           pagingEnabled
-          showsHorizontalScrollIndicator={false}>
-          {textArr.map((text) => (
-            <View style={styles.page}>
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}>
+          {textArr.map((text, index) => (
+            <View style={styles.page} key={index}>
               <Text style={styles.info}>{text}</Text>
             </View>
           ))}
         </ScrollView>
       </View>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#140A26',
-          paddingBottom: 15,
-        }}>
+      <View style={styles.motiveDots}>
         <View style={[styles.dots, styles.dotsFirstChild]} />
         <View style={styles.dots} />
         <View style={styles.dots} />
       </View>
 
       <View style={styles.lower}>
-        <SvgComponent style={styles.svg} />
-        <Text style={styles.skip}>SKIP</Text>
+        <SvgComponent />
+        <TouchableWithoutFeedback
+          onPress={() => {
+            navigation.navigate('AddTodo');
+          }}>
+          <Text style={styles.skip}>SKIP</Text>
+        </TouchableWithoutFeedback>
       </View>
     </>
   );
@@ -72,6 +79,11 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
 
+  motive: {
+    height: 80,
+    backgroundColor: '#140A26',
+  },
+
   lower: {
     backgroundColor: '#140A26',
     flex: 1,
@@ -93,8 +105,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  ovals: {
-    marginVertical: 20,
+  motiveDots: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#140A26',
+    paddingBottom: 20,
   },
 
   dots: {
@@ -112,10 +128,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     opacity: 1,
     transform: [{scale: 1.25}],
-  },
-
-  svg: {
-    // marginTop: 10,
   },
 
   skip: {
