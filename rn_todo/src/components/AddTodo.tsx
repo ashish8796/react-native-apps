@@ -28,11 +28,13 @@ function AddTodo() {
       <TouchableOpacity
         style={styles.addTodoContainer}
         onPress={() => {
-          setIsCreateTodoVisible(!isCreateTodoVisible);
+          setIsCreateTodoVisible(true);
         }}>
-        <PlusIcon style={{color: '#fff', fill: '#fff'}} />
+        <PlusIcon />
       </TouchableOpacity>
-      {isCreateTodoVisible && <CreateTodo />}
+      {isCreateTodoVisible && (
+        <CreateTodo changeVisibilty={setIsCreateTodoVisible} />
+      )}
     </View>
   );
 }
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: '#5c2a9d',
+    backgroundColor: '#5B3E96',
     justifyContent: 'center',
     alignItems: 'center',
   },
