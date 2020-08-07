@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   Text,
   View,
@@ -6,19 +6,22 @@ import {
   ScrollView,
   Dimensions,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
+import Animated from 'react-native-reanimated';
 import SvgComponent from './../assests/svg/OnboardingIcon';
+import Dot from './Dot';
 
 const {width} = Dimensions.get('screen');
 
 function Onboarding({navigation}) {
+  const scrollX = useRef(new Animated.Value(0));
+
   const textArr = [
     'Very simple Things To-Do List. Helps you to manage yourdaily life,without any hassle!',
     'Hard work always pays.',
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
   ];
-
-  const handleScroll = () => {};
 
   return (
     <>
@@ -27,33 +30,50 @@ function Onboarding({navigation}) {
         <Text style={styles.text}>TTD</Text>
       </View>
       <View style={styles.motive}>
-        <ScrollView
+        <Animated.ScrollView
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          onScroll={handleScroll}>
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {x: scrollX.current}}}],
+            {
+              useNativeDriver: true,
+            },
+          )}>
           {textArr.map((text, index) => (
             <View style={styles.page} key={index}>
               <Text style={styles.info}>{text}</Text>
             </View>
           ))}
-        </ScrollView>
-      </View>
-
-      <View style={styles.motiveDots}>
-        <View style={[styles.dots, styles.dotsFirstChild]} />
-        <View style={styles.dots} />
-        <View style={styles.dots} />
+        </Animated.ScrollView>
+        <View style={styles.motiveDots}>
+          {textArr.map((d, index) => {
+            return (
+              <Dot
+                key={index}
+                {...{
+                  index,
+                  currentIndex: Animated.divide(scrollX.current, width),
+                }}
+              />
+            );
+          })}
+        </View>
       </View>
 
       <View style={styles.lower}>
-        <SvgComponent />
-        <TouchableWithoutFeedback
-          onPress={() => {
-            navigation.navigate('AddTodo');
-          }}>
-          <Text style={styles.skip}>SKIP</Text>
-        </TouchableWithoutFeedback>
+        <View style={{paddingVertical: 15}}>
+          <SvgComponent />
+        </View>
+        <View style={styles.skipContainer}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate('AddTodo');
+            }}>
+            <Text style={styles.skip}>SKIP</Text>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     </>
   );
@@ -80,8 +100,8 @@ const styles = StyleSheet.create({
   },
 
   motive: {
-    height: 80,
     backgroundColor: '#140A26',
+    paddingVertical: 30,
   },
 
   lower: {
@@ -110,31 +130,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#140A26',
-    paddingBottom: 20,
+    paddingVertical: 30,
   },
-
-  dots: {
-    borderColor: '#fff',
-    borderWidth: 2,
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    marginHorizontal: 6,
-    backgroundColor: 'white',
-    opacity: 0.5,
-  },
-
-  dotsFirstChild: {
-    backgroundColor: '#fff',
-    opacity: 1,
-    transform: [{scale: 1.25}],
-  },
-
   skip: {
     color: '#fff',
     fontSize: 40,
     fontWeight: '700',
     marginTop: 40,
+  },
+  skipContainer: {
+    position: 'absolute',
+    zIndex: 100,
+    bottom: Platform.OS === 'ios' ? 50 : 40,
   },
 });
 
