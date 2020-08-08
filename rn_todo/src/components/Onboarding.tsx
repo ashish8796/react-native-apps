@@ -63,7 +63,7 @@ function Onboarding({navigation}) {
       </View>
 
       <View style={styles.lower}>
-        <View style={{paddingVertical: 15}}>
+        <View>
           <SvgComponent />
         </View>
         <View style={styles.skipContainer}>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    marginTop: 36,
+    marginTop: 25,
     fontSize: 40,
     fontWeight: 'bold',
     color: '#ffffff',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
 
   welcome: {
-    marginTop: 60,
+    marginTop: 40,
     fontSize: 17,
     color: '#ffffff',
   },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
 
   info: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#ADADAD',
     flexWrap: 'wrap',
     textAlign: 'center',
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#140A26',
-    paddingVertical: 30,
+    paddingVertical: 20,
   },
   skip: {
     color: '#fff',
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   skipContainer: {
     position: 'absolute',
     zIndex: 100,
-    bottom: Platform.OS === 'ios' ? 50 : 40,
+    bottom: Platform.OS === 'ios' ? 50 : 30,
   },
 });
 

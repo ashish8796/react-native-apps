@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Modal,
   View,
@@ -14,24 +14,28 @@ import actions from './../lib/store/actions/actions';
 
 const {height} = Dimensions.get('screen');
 
-function CreateTodo({changeVisibilty = () => {}}) {
+function CreateTodo() {
   const dispatch = useDispatch();
-  const {todoArr} = useSelector((state) => state);
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  const {todoArr, isModalVisible} = useSelector((state) => state);
+  // const [isModalVisible, setIsModalVisible] = useState(true);
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    console.log(todoArr);
+    // console.log(todoArr);
   }, [todoArr]);
+
+  // useEffect(() => {
+  //   console.log(modal.current.visible);
+  // });
 
   return (
     <Modal
       transparent
       animationType={'fade'}
-      onRequestClose={() => {
-        changeVisibilty(false);
-      }}>
+      visible={isModalVisible}
+      // onRequestClose={() => {}}
+    >
       <BlurView
         blurType="light"
         blurAmount={3.5}
@@ -41,11 +45,13 @@ function CreateTodo({changeVisibilty = () => {}}) {
         <View style={styles.madalView}>
           <View style={styles.taskContainer}>
             <Text style={styles.createTask}>Create New Tasks</Text>
+
             <View style={styles.line} />
           </View>
 
           <View style={styles.topicContainer}>
             <Text style={styles.topicText}>Topic</Text>
+
             <TextInput
               style={styles.topicInput}
               placeholder={'Write Topic'}
@@ -57,6 +63,7 @@ function CreateTodo({changeVisibilty = () => {}}) {
 
           <View style={styles.descrriptionContainer}>
             <Text style={styles.descrriptionText}>Description</Text>
+
             <TextInput
               style={styles.descrriptionInput}
               placeholder={'Write Description'}
@@ -70,6 +77,7 @@ function CreateTodo({changeVisibilty = () => {}}) {
             style={styles.addButton}
             onPress={() => {
               dispatch(actions.addTodo(topic, description));
+              dispatch(actions.changeModalVisibility(false));
             }}>
             <Text style={styles.addText}>ADD</Text>
           </TouchableOpacity>
