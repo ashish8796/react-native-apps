@@ -16,14 +16,15 @@ const {height} = Dimensions.get('screen');
 
 function CreateTodo() {
   const dispatch = useDispatch();
-  const {todoArr, isModalVisible} = useSelector((state) => state);
-  // const [isModalVisible, setIsModalVisible] = useState(true);
+  const {isModalVisible} = useSelector((state) => state);
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
+  const topicRef = useRef();
+  const descriptionRef = useRef();
+  const [focusDescritionInput, setFocusDescritionInput] = useState(false);
 
-  useEffect(() => {
-    // console.log(todoArr);
-  }, [todoArr]);
+  // useEffect(() => {
+  // }, [todoArr]);
 
   // useEffect(() => {
   //   console.log(modal.current.visible);
@@ -34,8 +35,9 @@ function CreateTodo() {
       transparent
       animationType={'fade'}
       visible={isModalVisible}
-      // onRequestClose={() => {}}
-    >
+      onRequestClose={() => {
+        dispatch(actions.changeModalVisibility(false));
+      }}>
       <BlurView
         blurType="light"
         blurAmount={3.5}
@@ -55,9 +57,14 @@ function CreateTodo() {
             <TextInput
               style={styles.topicInput}
               placeholder={'Write Topic'}
+              value={topic}
+              // lable={'Field1'}
+              returnKeyType={'next'}
               onChangeText={(text) => {
                 setTopic(text);
               }}
+              blurOnSubmit={false}
+              onSubmitEditing={setFocusDescritionInput(true)}
             />
           </View>
 
@@ -67,6 +74,10 @@ function CreateTodo() {
             <TextInput
               style={styles.descrriptionInput}
               placeholder={'Write Description'}
+              ref={descriptionRef}
+              autoFocus={focusDescritionInput}
+              lable={'field2'}
+              value={description}
               onChangeText={(text) => {
                 setDescription(text);
               }}
@@ -76,8 +87,14 @@ function CreateTodo() {
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => {
+              if (!topic) {
+                dispatch(actions.changeModalVisibility(false));
+                return;
+              }
               dispatch(actions.addTodo(topic, description));
               dispatch(actions.changeModalVisibility(false));
+              setTopic('');
+              setDescription('');
             }}>
             <Text style={styles.addText}>ADD</Text>
           </TouchableOpacity>

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  Button,
   TouchableOpacity,
   Modal,
   Dimensions,
@@ -16,17 +15,16 @@ import {} from 'react-native-gesture-handler';
 import CreateTodo from './CreateTodo';
 import {useSelector, useDispatch} from 'react-redux';
 import actions from './../lib/store/actions/actions';
-import CheckBox from '@react-native-community/checkbox';
+import Todo from './Todo';
+import {BlurView} from '@react-native-community/blur';
+import CurrentTodo from './CurrentTodo';
 
 const {width} = Dimensions.get('screen');
+const {height} = Dimensions.get('screen');
 
 function AddTodo() {
   const dispatch = useDispatch();
-  const {todoArr} = useSelector((state) => state);
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
-  useEffect(() => {});
-  // const [isCreateTodoVisible, setIsCreateTodoVisible] = useState(false);
+  const {todoArr, currentTodo, showTodoModal} = useSelector((state) => state);
 
   return (
     <View style={styles.wrapper}>
@@ -34,21 +32,16 @@ function AddTodo() {
         <Text style={styles.headText}>TTD</Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        {todoArr.length === 0 && <Text>Any Text</Text>}
-        {todoArr.map((todo, index) => (
-          <View key={index} style={styles.todoContainer}>
-            <CheckBox
-              // disabled={false}
-              value={toggleCheckBox}
-              onValueChange={(newValue) => {
-                setToggleCheckBox(newValue);
-              }}
-            />
-            <Text style={styles.todoText}>{todo.topic}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.scrollViewBox}>
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          onScroll={() => {}}>
+          {todoArr.length === 0 && <Text>Any Text</Text>}
+          {todoArr.map((todo, index) => (
+            <Todo {...{todo}} key={index} />
+          ))}
+        </ScrollView>
+      </View>
 
       <TouchableOpacity
         style={styles.addTodoContainer}
@@ -57,6 +50,21 @@ function AddTodo() {
         }}>
         <PlusIcon />
       </TouchableOpacity>
+
+      <Modal
+        transparent
+        visible={showTodoModal}
+        animationType={'fade'}
+        onRequestClose={() => {
+          dispatch(actions.changeShowTodoModal(false));
+        }}>
+        <BlurView
+          blurType={'light'}
+          blurAmount={3.5}
+          style={styles.todoBlurView}
+        />
+        <CurrentTodo />
+      </Modal>
 
       <CreateTodo />
     </View>
@@ -68,13 +76,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#221738',
-    width: '100%',
   },
 
   head: {
     alignItems: 'center',
     backgroundColor: '#140A26',
-    width: '100%',
+    width: width,
   },
 
   headText: {
@@ -84,14 +91,19 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
+  scrollViewBox: {
+    height: height * 0.65,
+    paddingVertical: 30,
+  },
+
   scrollView: {
-    width: width,
-    flex: 1,
+    width,
+    alignItems: 'center',
   },
 
   addTodoContainer: {
     position: 'absolute',
-    bottom: 20,
+    bottom: height * 0.03,
     width: 70,
     height: 70,
     borderRadius: 35,
@@ -100,13 +112,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  todoContainer: {
-    width: '100%',
-    backgroundColor: '#fff',
-  },
-
-  todoText: {
-    fontSize: 20,
+  todoBlurView: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
   },
 });
 
