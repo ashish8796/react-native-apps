@@ -21,14 +21,17 @@ function CreateTodo() {
   const [description, setDescription] = useState('');
   const topicRef = useRef();
   const descriptionRef = useRef();
-  const [focusDescritionInput, setFocusDescritionInput] = useState(false);
 
-  // useEffect(() => {
-  // }, [todoArr]);
-
-  // useEffect(() => {
-  //   console.log(modal.current.visible);
-  // });
+  const handleAddTodo = () => {
+    if (!topic) {
+      dispatch(actions.changeModalVisibility(false));
+      return;
+    }
+    dispatch(actions.addTodo(topic, description));
+    dispatch(actions.changeModalVisibility(false));
+    setTopic('');
+    setDescription('');
+  };
 
   return (
     <Modal
@@ -58,13 +61,13 @@ function CreateTodo() {
               style={styles.topicInput}
               placeholder={'Write Topic'}
               value={topic}
-              // lable={'Field1'}
-              returnKeyType={'next'}
               onChangeText={(text) => {
                 setTopic(text);
               }}
               blurOnSubmit={false}
-              onSubmitEditing={setFocusDescritionInput(true)}
+              onSubmitEditing={() => {
+                descriptionRef.current.focus();
+              }}
             />
           </View>
 
@@ -75,27 +78,15 @@ function CreateTodo() {
               style={styles.descrriptionInput}
               placeholder={'Write Description'}
               ref={descriptionRef}
-              autoFocus={focusDescritionInput}
-              lable={'field2'}
               value={description}
               onChangeText={(text) => {
                 setDescription(text);
               }}
+              onSubmitEditing={handleAddTodo}
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => {
-              if (!topic) {
-                dispatch(actions.changeModalVisibility(false));
-                return;
-              }
-              dispatch(actions.addTodo(topic, description));
-              dispatch(actions.changeModalVisibility(false));
-              setTopic('');
-              setDescription('');
-            }}>
+          <TouchableOpacity style={styles.addButton} onPress={handleAddTodo}>
             <Text style={styles.addText}>ADD</Text>
           </TouchableOpacity>
         </View>

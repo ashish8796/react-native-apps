@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   View,
@@ -14,15 +15,24 @@ import actions from './../lib/store/actions/actions';
 
 const {width} = Dimensions.get('screen');
 const {height} = Dimensions.get('screen');
+let isTodoComplete;
 
 const CurrentTodo = () => {
   const {currentTodo} = useSelector((state) => state);
   const dispatch = useDispatch();
+  isTodoComplete = currentTodo.isCompleted;
+
   return (
     <View style={styles.currentTodoBox}>
       <View style={styles.todoWrapper}>
         <View style={styles.topicBox}>
-          <Text style={styles.todoTopic}>{currentTodo.topic}</Text>
+          <Text
+            style={[
+              styles.todoTopic,
+              {textDecorationLine: isTodoComplete ? 'line-through' : 'none'},
+            ]}>
+            {currentTodo.topic}
+          </Text>
           <View style={styles.topicLine} />
         </View>
 

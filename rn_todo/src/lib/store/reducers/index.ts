@@ -5,7 +5,10 @@ import {
   CHANGE_SHOW_TODO_MODAL,
   DELETE_TODO,
   CHANGE_TODO_STATUS,
+  SET_ALL_TODOS,
 } from '../actions/actions';
+
+import {setItem} from '../../storage';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const initState = {
@@ -18,7 +21,10 @@ const initState = {
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case ADD_TODO: {
-      return {...state, todoArr: [...state.todoArr, action.payload]};
+      const newState = {...state, todoArr: [...state.todoArr, action.payload]};
+      // AsyncStorage.setItem('state', JSON.stringify(newState.todoArr));
+      setItem('todos', newState.todoArr);
+      return newState;
     }
 
     case IS_MODAL_VISIBLE: {
@@ -37,14 +43,17 @@ const reducer = (state = initState, action) => {
     }
 
     case DELETE_TODO: {
-      return {
+      const newState = {
         ...state,
         todoArr: state.todoArr.filter((todo) => todo.id !== action.payload),
       };
+      // AsyncStorage.setItem('state', JSON.stringify(newState.todoArr));
+      setItem('todos', newState.todoArr);
+      return newState;
     }
 
     case CHANGE_TODO_STATUS: {
-      return {
+      const newState = {
         ...state,
         todoArr: state.todoArr.map((todo) => {
           if (todo.id === action.payload) {
@@ -56,6 +65,13 @@ const reducer = (state = initState, action) => {
           return todo;
         }),
       };
+      // AsyncStorage.setItem('state', JSON.stringify(newState.todoArr));
+      setItem('todos', newState.todoArr);
+      return newState;
+    }
+
+    case SET_ALL_TODOS: {
+      return {...state, todoArr: action.payload};
     }
 
     default:

@@ -15,12 +15,7 @@ const {width} = Dimensions.get('screen');
 
 const Todo = ({todo}) => {
   const dispatch = useDispatch();
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  const {currentTodo} = useSelector((state) => state);
-
-  useEffect(() => {
-    console.log(currentTodo, currentTodo.id);
-  });
+  // const {currentTodo} = useSelector((state) => state);
 
   return (
     <TouchableOpacity
@@ -32,13 +27,11 @@ const Todo = ({todo}) => {
       <TouchableOpacity
         style={styles.checkbox}
         onPress={() => {
-          setToggleCheckBox(!toggleCheckBox);
           dispatch(actions.changeCurrentTodo(todo));
-          dispatch(
-            actions.changeTodoStatus(currentTodo.id ? currentTodo.id : todo.id),
-          );
+          dispatch(actions.changeTodoStatus(todo.id));
+          console.log(todo.id);
         }}>
-        {toggleCheckBox ? <Checked width={30} height={30} /> : <Bitmap />}
+        {todo.isCompleted ? <Checked width={30} height={30} /> : <Bitmap />}
       </TouchableOpacity>
       <View style={styles.todoTextContainer}>
         <Text style={styles.todoText}>

@@ -27,20 +27,12 @@ const Dot = ({index, currentIndex}: DotProps) => {
 
 const styles = StyleSheet.create({
   dots: {
-    borderColor: '#fff',
-    borderWidth: 2,
     width: 10,
     height: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     marginHorizontal: 6,
     backgroundColor: 'white',
     opacity: 0.5,
-  },
-
-  dotsFirstChild: {
-    backgroundColor: '#fff',
-    opacity: 1,
-    transform: [{scale: 1.25}],
   },
 });
 

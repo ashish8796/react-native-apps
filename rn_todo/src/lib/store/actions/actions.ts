@@ -4,6 +4,7 @@ export const CHANGE_CURRENT_TODO = 'CHANGE_CURRENT_TODO';
 export const CHANGE_SHOW_TODO_MODAL = 'CHANGE_SHOW_TODO_MODAL';
 export const DELETE_TODO = 'DELETE_TODO';
 export const CHANGE_TODO_STATUS = 'CHANGE_TODO_STATUS';
+export const SET_ALL_TODOS = 'SET_ALL_TODOS';
 
 const actions = {
   addTodo(topic, description) {
@@ -50,6 +51,13 @@ const actions = {
     return {
       type: CHANGE_TODO_STATUS,
       payload: id,
+    };
+  },
+
+  setAllTodos(todos) {
+    return {
+      type: SET_ALL_TODOS,
+      payload: todos,
     };
   },
 };

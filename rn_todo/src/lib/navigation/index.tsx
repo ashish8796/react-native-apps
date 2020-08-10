@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {useDispatch} from 'react-redux';
 
 import Onboarding from './../../components/Onboarding';
 import AddTodo from './../../components/AddTodo';
+import {getItem} from '../storage';
+import actions from '../store/actions/actions';
 
 const mainRoutes = [
   {
@@ -19,6 +22,17 @@ const mainRoutes = [
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getTodosFromStotrage();
+  }, []);
+
+  const getTodosFromStotrage = useCallback(async () => {
+    let todos = JSON.parse(await getItem('todos')) || [];
+    dispatch(actions.setAllTodos(todos));
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>

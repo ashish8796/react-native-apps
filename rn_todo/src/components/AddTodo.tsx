@@ -33,13 +33,12 @@ function AddTodo() {
       </View>
 
       <View style={styles.scrollViewBox}>
-        <ScrollView
-          contentContainerStyle={styles.scrollView}
-          onScroll={() => {}}>
-          {todoArr.length === 0 && <Text>Any Text</Text>}
-          {todoArr.map((todo, index) => (
-            <Todo {...{todo}} key={index} />
-          ))}
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {todoArr.length === 0 ? (
+            <Text>Any Text</Text>
+          ) : (
+            todoArr.map((todo, index) => <Todo {...{todo}} key={index} />)
+          )}
         </ScrollView>
       </View>
 
