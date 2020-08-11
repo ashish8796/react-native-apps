@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback, ReactNode} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useDispatch} from 'react-redux';
@@ -8,7 +8,12 @@ import AddTodo from './../../components/AddTodo';
 import {getItem} from '../storage';
 import actions from '../store/actions/actions';
 
-const mainRoutes = [
+interface Route {
+  name: string;
+  Component: React.FC<any>;
+}
+
+const mainRoutes: Array<Route> = [
   {
     name: 'Onboarding',
     Component: Onboarding,
@@ -29,8 +34,12 @@ const MainNavigator = () => {
   }, []);
 
   const getTodosFromStotrage = useCallback(async () => {
-    let todos = JSON.parse(await getItem('todos')) || [];
-    dispatch(actions.setAllTodos(todos));
+    let todos = (await getItem('todos')) || [];
+    dispatch(
+      actions.setAllTodos(
+        typeof todos === 'string' ? JSON.parse(todos) : todos,
+      ),
+    );
   }, []);
 
   return (

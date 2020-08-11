@@ -15,16 +15,17 @@ import {} from 'react-native-gesture-handler';
 import CreateTodo from './CreateTodo';
 import {useSelector, useDispatch} from 'react-redux';
 import actions from './../lib/store/actions/actions';
-import Todo from './Todo';
+import EachTodo from './Todo';
 import {BlurView} from '@react-native-community/blur';
 import CurrentTodo from './CurrentTodo';
+import {InitState} from '../lib/store/reducers';
 
 const {width} = Dimensions.get('screen');
 const {height} = Dimensions.get('screen');
 
 function AddTodo() {
   const dispatch = useDispatch();
-  const {todoArr, currentTodo, showTodoModal} = useSelector((state) => state);
+  const {todoArr, showTodoModal} = useSelector((state: InitState) => state);
 
   return (
     <View style={styles.wrapper}>
@@ -37,7 +38,7 @@ function AddTodo() {
           {todoArr.length === 0 ? (
             <Text>Any Text</Text>
           ) : (
-            todoArr.map((todo, index) => <Todo {...{todo}} key={index} />)
+            todoArr.map((todo, index) => <EachTodo {...{todo}} key={index} />)
           )}
         </ScrollView>
       </View>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   View,
@@ -8,14 +8,17 @@ import {
 } from 'react-native';
 import Bitmap from './../assests/svg/Bitmap';
 import Checked from './../assests/svg/check';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import actions from './../lib/store/actions/actions';
+import {Todo} from '../lib/store/reducers';
 
 const {width} = Dimensions.get('screen');
+interface Props {
+  todo: Todo;
+}
 
-const Todo = ({todo}) => {
+const EachTodo: React.FC<Props> = ({todo}) => {
   const dispatch = useDispatch();
-  // const {currentTodo} = useSelector((state) => state);
 
   return (
     <TouchableOpacity
@@ -29,7 +32,6 @@ const Todo = ({todo}) => {
         onPress={() => {
           dispatch(actions.changeCurrentTodo(todo));
           dispatch(actions.changeTodoStatus(todo.id));
-          console.log(todo.id);
         }}>
         {todo.isCompleted ? <Checked width={30} height={30} /> : <Bitmap />}
       </TouchableOpacity>
@@ -68,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Todo;
+export default EachTodo;

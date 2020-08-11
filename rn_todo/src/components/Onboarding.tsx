@@ -3,7 +3,6 @@ import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
   Dimensions,
   TouchableWithoutFeedback,
   Platform,
@@ -17,7 +16,7 @@ const {width} = Dimensions.get('screen');
 function Onboarding({navigation}) {
   const scrollX = useRef(new Animated.Value(0));
 
-  const textArr = [
+  const textArr: Array<string> = [
     'Very simple Things To-Do List. Helps you to manage yourdaily life,without any hassle!',
     'Hard work always pays.',
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -48,7 +47,7 @@ function Onboarding({navigation}) {
           ))}
         </Animated.ScrollView>
         <View style={styles.motiveDots}>
-          {textArr.map((d, index) => {
+          {textArr.map((_, index) => {
             return (
               <Dot
                 key={index}

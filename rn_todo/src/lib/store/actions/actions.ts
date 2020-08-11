@@ -1,3 +1,13 @@
+import {
+  AddTodo,
+  ChangeModalVisibility,
+  ChangeCurrentTodo,
+  ChangeShowTodoModal,
+  DeleteTodo,
+  ChangeTodoStatus,
+} from './types';
+import {Todo} from '../reducers';
+
 export const ADD_TODO = 'ADD_TODO';
 export const IS_MODAL_VISIBLE = 'IS_MODAL_VISIBLE';
 export const CHANGE_CURRENT_TODO = 'CHANGE_CURRENT_TODO';
@@ -7,7 +17,7 @@ export const CHANGE_TODO_STATUS = 'CHANGE_TODO_STATUS';
 export const SET_ALL_TODOS = 'SET_ALL_TODOS';
 
 const actions = {
-  addTodo(topic, description) {
+  addTodo(topic: string, description: string): AddTodo {
     return {
       type: ADD_TODO,
       payload: {
@@ -19,42 +29,42 @@ const actions = {
     };
   },
 
-  changeModalVisibility(isModalVisible) {
+  changeModalVisibility(isModalVisible: boolean): ChangeModalVisibility {
     return {
       type: IS_MODAL_VISIBLE,
       payload: isModalVisible,
     };
   },
 
-  changeCurrentTodo(todo) {
+  changeCurrentTodo(todo: Todo): ChangeCurrentTodo {
     return {
       type: CHANGE_CURRENT_TODO,
       payload: todo,
     };
   },
 
-  changeShowTodoModal(showTodoModal) {
+  changeShowTodoModal(showTodoModal: boolean): ChangeShowTodoModal {
     return {
       type: CHANGE_SHOW_TODO_MODAL,
       payload: showTodoModal,
     };
   },
 
-  deleteTodo(id) {
+  deleteTodo(id: number): DeleteTodo {
     return {
       type: DELETE_TODO,
       payload: id,
     };
   },
 
-  changeTodoStatus(id) {
+  changeTodoStatus(id: number): ChangeTodoStatus {
     return {
       type: CHANGE_TODO_STATUS,
       payload: id,
     };
   },
 
-  setAllTodos(todos) {
+  setAllTodos(todos: Array<Todo>) {
     return {
       type: SET_ALL_TODOS,
       payload: todos,

@@ -12,15 +12,14 @@ import Trash from './../assests/svg/trash';
 import Bitmap from './../assests/svg/Bitmap';
 import Check from './../assests/svg/check';
 import actions from './../lib/store/actions/actions';
+import {InitState} from '../lib/store/reducers';
 
 const {width} = Dimensions.get('screen');
 const {height} = Dimensions.get('screen');
-let isTodoComplete;
 
 const CurrentTodo = () => {
-  const {currentTodo} = useSelector((state) => state);
+  const {currentTodo} = useSelector((state: InitState) => state);
   const dispatch = useDispatch();
-  isTodoComplete = currentTodo.isCompleted;
 
   return (
     <View style={styles.currentTodoBox}>
@@ -29,7 +28,11 @@ const CurrentTodo = () => {
           <Text
             style={[
               styles.todoTopic,
-              {textDecorationLine: isTodoComplete ? 'line-through' : 'none'},
+              {
+                textDecorationLine: currentTodo.isCompleted
+                  ? 'line-through'
+                  : 'none',
+              },
             ]}>
             {currentTodo.topic}
           </Text>

@@ -9,20 +9,50 @@ import {
 } from '../actions/actions';
 
 import {setItem} from '../../storage';
+import {
+  AddTodo,
+  ChangeModalVisibility,
+  ChangeCurrentTodo,
+  ChangeShowTodoModal,
+  ChangeTodoStatus,
+  DeleteTodo,
+  SetAllTodos,
+} from '../actions/types';
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const initState = {
+export type Todo = {
+  topic: string;
+  id: number;
+  isCompleted: boolean;
+  description: string;
+};
+
+export interface InitState {
+  todoArr: Array<Todo>;
+  isModalVisible: boolean;
+  currentTodo: null | Todo;
+  showTodoModal: boolean;
+}
+
+type MainAction =
+  | AddTodo
+  | ChangeModalVisibility
+  | ChangeCurrentTodo
+  | ChangeShowTodoModal
+  | ChangeTodoStatus
+  | DeleteTodo
+  | SetAllTodos;
+
+const initState: InitState = {
   todoArr: [],
   isModalVisible: false,
-  currentTodo: {},
+  currentTodo: null,
   showTodoModal: false,
 };
 
-const reducer = (state = initState, action) => {
+const reducer = (state = initState, action: MainAction): InitState => {
   switch (action.type) {
     case ADD_TODO: {
       const newState = {...state, todoArr: [...state.todoArr, action.payload]};
-      // AsyncStorage.setItem('state', JSON.stringify(newState.todoArr));
       setItem('todos', newState.todoArr);
       return newState;
     }
@@ -47,7 +77,6 @@ const reducer = (state = initState, action) => {
         ...state,
         todoArr: state.todoArr.filter((todo) => todo.id !== action.payload),
       };
-      // AsyncStorage.setItem('state', JSON.stringify(newState.todoArr));
       setItem('todos', newState.todoArr);
       return newState;
     }
@@ -65,7 +94,6 @@ const reducer = (state = initState, action) => {
           return todo;
         }),
       };
-      // AsyncStorage.setItem('state', JSON.stringify(newState.todoArr));
       setItem('todos', newState.todoArr);
       return newState;
     }

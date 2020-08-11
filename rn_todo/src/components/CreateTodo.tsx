@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Modal,
   View,
@@ -11,16 +11,16 @@ import {
 import {BlurView} from '@react-native-community/blur';
 import {useDispatch, useSelector} from 'react-redux';
 import actions from './../lib/store/actions/actions';
+import {InitState} from '../lib/store/reducers';
 
 const {height} = Dimensions.get('screen');
 
 function CreateTodo() {
   const dispatch = useDispatch();
-  const {isModalVisible} = useSelector((state) => state);
-  const [topic, setTopic] = useState('');
-  const [description, setDescription] = useState('');
-  const topicRef = useRef();
-  const descriptionRef = useRef();
+  const {isModalVisible} = useSelector((state: InitState) => state);
+  const [topic, setTopic] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const descriptionRef = useRef<HTMLElement>();
 
   const handleAddTodo = () => {
     if (!topic) {
