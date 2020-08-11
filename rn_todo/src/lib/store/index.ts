@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {createStore} from 'redux';
 import reducer from './reducers';
 

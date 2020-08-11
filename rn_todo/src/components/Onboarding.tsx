@@ -10,13 +10,17 @@ import {
 import Animated from 'react-native-reanimated';
 import SvgComponent from './../assests/svg/OnboardingIcon';
 import Dot from './Dot';
+import {StackNavigationProps, Routes} from '../lib/navigation';
 
 const {width} = Dimensions.get('screen');
 
-function Onboarding({navigation}) {
-  const scrollX = useRef(new Animated.Value(0));
+const Onboarding: React.FunctionComponent<StackNavigationProps<
+  Routes,
+  'Onboarding'
+>> = ({navigation}) => {
+  const scrollX = useRef<Animated.Node<number>>(new Animated.Value(0));
 
-  const textArr: Array<string> = [
+  const textArr: string[] = [
     'Very simple Things To-Do List. Helps you to manage yourdaily life,without any hassle!',
     'Hard work always pays.',
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -76,7 +80,7 @@ function Onboarding({navigation}) {
       </View>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   upper: {
