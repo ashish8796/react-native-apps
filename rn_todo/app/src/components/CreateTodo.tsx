@@ -20,17 +20,23 @@ function CreateTodo() {
   const {isModalVisible} = useSelector((state: InitState) => state);
   const [topic, setTopic] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const descriptionRef = useRef<HTMLElement>();
+  const descriptionRef = useRef<TextInput>(null);
 
   const handleAddTodo = () => {
-    if (!topic) {
-      dispatch(actions.changeModalVisibility(false));
-      return;
+    const url = 'https://localhost:3001';
+    try {
+      fetch(url + '/add-todo', {method: 'POST'});
+    } catch (err) {
+      console.log(err);
     }
-    dispatch(actions.addTodo(topic, description));
-    dispatch(actions.changeModalVisibility(false));
-    setTopic('');
-    setDescription('');
+    // if (!topic) {
+    //   dispatch(actions.changeModalVisibility(false));
+    //   return;
+    // }
+    // dispatch(actions.addTodo(topic, description));
+    // dispatch(actions.changeModalVisibility(false));
+    // setTopic('');
+    // setDescription('');
   };
 
   return (
@@ -66,7 +72,7 @@ function CreateTodo() {
               }}
               blurOnSubmit={false}
               onSubmitEditing={() => {
-                descriptionRef.current.focus();
+                descriptionRef.current?.focus();
               }}
             />
           </View>
