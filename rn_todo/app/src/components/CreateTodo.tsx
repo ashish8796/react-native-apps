@@ -23,20 +23,34 @@ function CreateTodo() {
   const descriptionRef = useRef<TextInput>(null);
 
   const handleAddTodo = () => {
-    const url = 'https://localhost:3001';
-    try {
-      fetch(url + '/add-todo', {method: 'POST'});
-    } catch (err) {
-      console.log(err);
+    const url = 'http://10.0.2.2:3001/add-todo';
+    (async () => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          topic,
+          description,
+          id: Date.now(),
+          isCompleted: false,
+        }),
+      });
+      const data = response.json();
+      // .then((response) => response.json())
+      // // .then((data) => console.log(data.text))
+      // .catch((error) => console.log(error));
+    })();
+
+    if (!topic) {
+      dispatch(actions.changeModalVisibility(false));
+      return;
     }
-    // if (!topic) {
-    //   dispatch(actions.changeModalVisibility(false));
-    //   return;
-    // }
-    // dispatch(actions.addTodo(topic, description));
-    // dispatch(actions.changeModalVisibility(false));
-    // setTopic('');
-    // setDescription('');
+    dispatch(actions.addTodo(topic, description));
+    dispatch(actions.changeModalVisibility(false));
+    setTopic('');
+    setDescription('');
   };
 
   return (
