@@ -65,32 +65,6 @@ const reducer = (state = initState, action: MainAction): InitState => {
       };
     }
 
-    case DELETE_TODO: {
-      const newState = {
-        ...state,
-        todoArr: state.todoArr.filter((todo) => todo.id !== action.payload),
-      };
-      setItem('todos', newState.todoArr);
-      return newState;
-    }
-
-    case CHANGE_TODO_STATUS: {
-      const newState = {
-        ...state,
-        todoArr: state.todoArr.map((todo) => {
-          if (todo.id === action.payload) {
-            return {
-              ...todo,
-              isCompleted: !todo.isCompleted,
-            };
-          }
-          return todo;
-        }),
-      };
-      setItem('todos', newState.todoArr);
-      return newState;
-    }
-
     case SET_ALL_TODOS: {
       return {...state, todoArr: action.payload};
     }

@@ -8,7 +8,7 @@ import {
 } from './types';
 import {Todo} from '../reducers';
 import {Dispatch} from 'redux';
-import {addNewTodo, getAllTodos, deleteATodo} from '../../../api';
+import {addNewTodo, getAllTodos, deleteATodo, changeStaus} from '../../../api';
 
 export const ADD_TODO = 'ADD_TODO';
 export const IS_MODAL_VISIBLE = 'IS_MODAL_VISIBLE';
@@ -17,10 +17,6 @@ export const CHANGE_SHOW_TODO_MODAL = 'CHANGE_SHOW_TODO_MODAL';
 export const DELETE_TODO = 'DELETE_TODO';
 export const CHANGE_TODO_STATUS = 'CHANGE_TODO_STATUS';
 export const SET_ALL_TODOS = 'SET_ALL_TODOS';
-
-export interface TodoId {
-  id: number;
-}
 
 const actions = {
   addTodo: ({topic, description}: Todo) => async (dispatch: Dispatch) => {
@@ -54,11 +50,9 @@ const actions = {
     dispatch(actions.setAllTodos());
   },
 
-  changeTodoStatus(id: number): ChangeTodoStatus {
-    return {
-      type: CHANGE_TODO_STATUS,
-      payload: id,
-    };
+  changeTodoStatus: (id: number) => async (dispatch: Dispatch) => {
+    await changeStaus(id);
+    dispatch(actions.setAllTodos());
   },
 
   setAllTodos: () => async (dispatch: Dispatch) => {

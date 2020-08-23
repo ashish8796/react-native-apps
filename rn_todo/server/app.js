@@ -20,7 +20,6 @@ app.post('/add-todo', (req, res) => {
     isCompleted: false,
     id: uuid()
   }
-  // console.log(newTodo)
   todos.push(newTodo);
 
   res.end()
@@ -36,11 +35,25 @@ app.get('/todos', (req, res) => {
 
 app.delete('/delete-todo', (req, res) => {
   const { body } = req;
-  // console.log(body)
 
-  todos = (todos.filter((todo) => todo.id !== body.id))
-  // console.log(todos)
+  todos = todos.filter((todo) => todo.id !== body.id)
+
   res.end();
+})
+
+app.put('/change-status', (req, res) => {
+  const { body } = req;
+  todos = todos.map((todo) => {
+    if (todo.id === body.id) {
+      return {
+        ...todo,
+        isCompleted: !todo.isCompleted,
+      };
+    }
+    return todo;
+  })
+
+  res.end()
 })
 
 app.listen(PORT)

@@ -43,6 +43,22 @@ class API {
       return e;
     }
   }
+
+  async changeStatus(url: string, data: number) {
+    try {
+      const response = await fetch(this.mainUrl + url, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({id: data}),
+      });
+
+      await response.json();
+    } catch (e) {
+      return e;
+    }
+  }
 }
 
 const api = new API();
@@ -52,3 +68,6 @@ export const getAllTodos = () => api.get('/todos');
 export const addNewTodo = (data: Todo) => api.post('/add-todo', data);
 
 export const deleteATodo = (data: number) => api.delete('/delete-todo', data);
+
+export const changeStaus = (data: number) =>
+  api.changeStatus('/change-status', data);
