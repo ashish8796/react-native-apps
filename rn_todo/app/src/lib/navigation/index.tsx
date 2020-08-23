@@ -56,13 +56,8 @@ const MainNavigator = () => {
     getTodosFromStotrage();
   }, []);
 
-  const getTodosFromStotrage = useCallback(async () => {
-    let todos = (await getItem('todos')) || [];
-    dispatch(
-      actions.setAllTodos(
-        typeof todos === 'string' ? JSON.parse(todos) : todos,
-      ),
-    );
+  const getTodosFromStotrage = useCallback(() => {
+    dispatch(actions.setAllTodos())
   }, []);
 
   return (

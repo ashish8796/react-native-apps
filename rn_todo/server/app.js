@@ -14,6 +14,15 @@ app.post('/add-todo', (req, res) => {
   console.log(data)
   // res.send({ text: "welcome" })
 })
+
+app.get('/todos', (req, res) => {
+  res.json({
+    data : {
+      todos: [{topic: 'A', description: 'cat', id: 76765, isCompleted: false}]
+    }
+  })
+})
+
 app.listen(PORT)
 
 

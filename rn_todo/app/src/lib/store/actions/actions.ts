@@ -7,6 +7,10 @@ import {
   ChangeTodoStatus,
 } from './types';
 import {Todo} from '../reducers';
+import { Dispatch } from 'redux';
+import { getActionFromState } from '@react-navigation/native';
+import { ADDRGETNETWORKPARAMS } from 'dns';
+import { getAllTodos } from '../../../api';
 
 export const ADD_TODO = 'ADD_TODO';
 export const IS_MODAL_VISIBLE = 'IS_MODAL_VISIBLE';
@@ -64,11 +68,17 @@ const actions = {
     };
   },
 
-  setAllTodos(todos: Array<Todo>) {
-    return {
-      type: SET_ALL_TODOS,
-      payload: todos,
-    };
+  setAllTodos : () => async (dispatch: Dispatch) => {
+    try {
+      const { data } = await getAllTodos();
+
+      dispatch({
+        type: SET_ALL_TODOS,
+        payload: data.todos,
+      });
+    } catch(e) {
+      console.log(e)
+    }
   },
 };
 
