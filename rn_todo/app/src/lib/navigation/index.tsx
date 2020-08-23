@@ -13,7 +13,6 @@ import {useDispatch} from 'react-redux';
 
 import Onboarding from './../../components/Onboarding';
 import AddTodo from './../../components/AddTodo';
-import {getItem} from '../storage';
 import actions from '../store/actions/actions';
 
 type RouteName = 'Onboarding' | 'AddTodo';
@@ -51,14 +50,7 @@ const Stack = createStackNavigator<Routes>();
 
 const MainNavigator = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getTodosFromStotrage();
-  }, []);
-
-  const getTodosFromStotrage = useCallback(() => {
-    dispatch(actions.setAllTodos())
-  }, []);
+  dispatch(actions.setAllTodos());
 
   return (
     <NavigationContainer>

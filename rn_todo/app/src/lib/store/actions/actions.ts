@@ -7,10 +7,8 @@ import {
   ChangeTodoStatus,
 } from './types';
 import {Todo} from '../reducers';
-import { Dispatch } from 'redux';
-import { getActionFromState } from '@react-navigation/native';
-import { ADDRGETNETWORKPARAMS } from 'dns';
-import { addNewTodo, getAllTodos } from '../../../api';
+import {Dispatch} from 'redux';
+import {addNewTodo, getAllTodos, deleteATodo} from '../../../api';
 
 export const ADD_TODO = 'ADD_TODO';
 export const IS_MODAL_VISIBLE = 'IS_MODAL_VISIBLE';
@@ -20,20 +18,14 @@ export const DELETE_TODO = 'DELETE_TODO';
 export const CHANGE_TODO_STATUS = 'CHANGE_TODO_STATUS';
 export const SET_ALL_TODOS = 'SET_ALL_TODOS';
 
+export interface TodoId {
+  id: number;
+}
+
 const actions = {
-  addTodo : ({topic, description} : Todo) => async (dispatch: Dispatch) => {
-
-    await addNewTodo({topic, description})
-    
-    // return {
-    //   type: ADD_TODO,
-    //   payload: {
-    //     topic,
-    //     description,
-    //   },
-    // };
-
-    dispatch(actions.setAllTodos())
+  addTodo: ({topic, description}: Todo) => async (dispatch: Dispatch) => {
+    await addNewTodo({topic, description});
+    dispatch(actions.setAllTodos());
   },
 
   changeModalVisibility(isModalVisible: boolean): ChangeModalVisibility {
@@ -57,11 +49,9 @@ const actions = {
     };
   },
 
-  deleteTodo(id: number): DeleteTodo {
-    return {
-      type: DELETE_TODO,
-      payload: id,
-    };
+  deleteTodo: (id: number) => async (dispatch: Dispatch) => {
+    await deleteATodo(id);
+    dispatch(actions.setAllTodos());
   },
 
   changeTodoStatus(id: number): ChangeTodoStatus {
@@ -71,16 +61,15 @@ const actions = {
     };
   },
 
-  setAllTodos : () => async (dispatch: Dispatch) => {
+  setAllTodos: () => async (dispatch: Dispatch) => {
     try {
-      const { data } = await getAllTodos();
-
+      const {data} = await getAllTodos();
       dispatch({
         type: SET_ALL_TODOS,
         payload: data.todos,
       });
-    } catch(e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   },
 };

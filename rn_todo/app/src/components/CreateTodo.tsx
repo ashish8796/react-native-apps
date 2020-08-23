@@ -23,18 +23,12 @@ function CreateTodo() {
   const descriptionRef = useRef<TextInput>(null);
 
   const handleAddTodo = () => {
-
-
     if (!topic) {
       dispatch(actions.changeModalVisibility(false));
       return;
     }
-
-    
     dispatch(actions.addTodo({topic, description}));
-
     dispatch(actions.changeModalVisibility(false));
-    
     setTopic('');
     setDescription('');
   };
@@ -151,7 +145,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderColor: '#979797',
     borderBottomWidth: 0.8,
-    color: 'red'
   },
 
   descrriptionContainer: {
@@ -168,7 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderColor: '#979797',
     borderBottomWidth: 0.8,
-    color: 'red'
   },
 
   addButton: {
