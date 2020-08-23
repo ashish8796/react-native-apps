@@ -1,4 +1,5 @@
 import {API_URI} from './config'
+import { Todo } from './lib/store/reducers';
 
 class API {
 	mainUrl: string = API_URI
@@ -31,3 +32,5 @@ class API {
 const api = new API();
 
 export const getAllTodos = () => api.get('/todos');
+
+export const addNewTodo = (data: Todo) => api.post('/add-todo', data);

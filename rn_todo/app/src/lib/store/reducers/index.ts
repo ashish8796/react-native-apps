@@ -21,8 +21,8 @@ import {
 
 export type Todo = {
   topic: string;
-  id: number;
-  isCompleted: boolean;
+  id?: number;
+  isCompleted?: boolean;
   description: string;
 };
 
@@ -34,7 +34,6 @@ export interface InitState {
 }
 
 type MainAction =
-  | AddTodo
   | ChangeModalVisibility
   | ChangeCurrentTodo
   | ChangeShowTodoModal
@@ -51,12 +50,6 @@ const initState: InitState = {
 
 const reducer = (state = initState, action: MainAction): InitState => {
   switch (action.type) {
-    case ADD_TODO: {
-      const newState = {...state, todoArr: [...state.todoArr, action.payload]};
-      setItem('todos', newState.todoArr);
-      return newState;
-    }
-
     case IS_MODAL_VISIBLE: {
       return {...state, isModalVisible: action.payload};
     }

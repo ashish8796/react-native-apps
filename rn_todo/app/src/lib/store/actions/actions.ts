@@ -10,7 +10,7 @@ import {Todo} from '../reducers';
 import { Dispatch } from 'redux';
 import { getActionFromState } from '@react-navigation/native';
 import { ADDRGETNETWORKPARAMS } from 'dns';
-import { getAllTodos } from '../../../api';
+import { addNewTodo, getAllTodos } from '../../../api';
 
 export const ADD_TODO = 'ADD_TODO';
 export const IS_MODAL_VISIBLE = 'IS_MODAL_VISIBLE';
@@ -21,16 +21,19 @@ export const CHANGE_TODO_STATUS = 'CHANGE_TODO_STATUS';
 export const SET_ALL_TODOS = 'SET_ALL_TODOS';
 
 const actions = {
-  addTodo(topic: string, description: string): AddTodo {
-    return {
-      type: ADD_TODO,
-      payload: {
-        topic,
-        description,
-        id: Date.now(),
-        isCompleted: false,
-      },
-    };
+  addTodo : ({topic, description} : Todo) => async (dispatch: Dispatch) => {
+
+    await addNewTodo({topic, description})
+    
+    // return {
+    //   type: ADD_TODO,
+    //   payload: {
+    //     topic,
+    //     description,
+    //   },
+    // };
+
+    dispatch(actions.setAllTodos())
   },
 
   changeModalVisibility(isModalVisible: boolean): ChangeModalVisibility {

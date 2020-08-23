@@ -23,32 +23,18 @@ function CreateTodo() {
   const descriptionRef = useRef<TextInput>(null);
 
   const handleAddTodo = () => {
-    const url = 'http://10.0.2.2:3001/add-todo';
-    (async () => {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          topic,
-          description,
-          id: Date.now(),
-          isCompleted: false,
-        }),
-      });
-      const data = response.json();
-      // .then((response) => response.json())
-      // // .then((data) => console.log(data.text))
-      // .catch((error) => console.log(error));
-    })();
+
 
     if (!topic) {
       dispatch(actions.changeModalVisibility(false));
       return;
     }
-    dispatch(actions.addTodo(topic, description));
+
+    
+    dispatch(actions.addTodo({topic, description}));
+
     dispatch(actions.changeModalVisibility(false));
+    
     setTopic('');
     setDescription('');
   };
@@ -165,6 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderColor: '#979797',
     borderBottomWidth: 0.8,
+    color: 'red'
   },
 
   descrriptionContainer: {
@@ -181,6 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderColor: '#979797',
     borderBottomWidth: 0.8,
+    color: 'red'
   },
 
   addButton: {
