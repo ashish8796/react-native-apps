@@ -31,7 +31,7 @@ const EachTodo: React.FC<Props> = ({todo}) => {
         style={styles.checkbox}
         onPress={() => {
           dispatch(actions.changeCurrentTodo(todo));
-          dispatch(actions.changeTodoStatus(todo.id));
+          dispatch(actions.changeTodoStatus(todo._id));
         }}>
         {todo.isCompleted ? <Checked width={30} height={30} /> : <Bitmap />}
       </TouchableOpacity>

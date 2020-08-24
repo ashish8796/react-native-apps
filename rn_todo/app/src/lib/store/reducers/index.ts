@@ -21,7 +21,7 @@ import {
 
 export type Todo = {
   topic: string;
-  id?: number;
+  _id?: number | string;
   isCompleted?: boolean;
   description: string;
 };

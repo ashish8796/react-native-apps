@@ -55,7 +55,7 @@ const CurrentTodo = () => {
         <TouchableOpacity
           style={styles.deleteTodo}
           onPress={() => {
-            dispatch(actions.deleteTodo(currentTodo.id));
+            dispatch(actions.deleteTodo(currentTodo._id));
             dispatch(actions.changeShowTodoModal(false));
           }}>
           <Trash width={20} height={20} />
